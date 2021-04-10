@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-    <table class="table bordered">
+    <table class="table bordered" id="studtable">
         <thead>
             <tr>
                 <th>Student ID</th>
@@ -31,7 +31,7 @@
 @section('scripts')
 <script>
     $(document).ready( function () {
-    $('#myTable').DataTable();
+    $('#studtable').DataTable();
     } );
 </script>
 @endsection
