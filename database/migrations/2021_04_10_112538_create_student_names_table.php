@@ -13,11 +13,11 @@ class CreateStudentNamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_names', function (Blueprint $table) {
+        Schema::create('students_name', function (Blueprint $table) {
             $table->id();
-            $table->string('First Name');
-            $table->string('Middle Name');
-            $table->string('Last Name');
+            $table->string('FirstName');
+            $table->string('MiddleName');
+            $table->string('LastName');
             $table->timestamps();
         });
     }
