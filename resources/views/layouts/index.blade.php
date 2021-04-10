@@ -15,12 +15,11 @@
         </thead>
         <tbody>
             <tr>
-                <td scope="row">C-001-21</td>
-                <td>Jhon Carlo</td>
-                <td>Barili</td>
-                <td>Condy</td>
-                <td>23</td>
-                <td>Grade 12</td>
+                @forelse ($collection as $item)
+
+                @empty
+
+                @endforelse
             </tr>
 
         </tbody>
