@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Student;
+use App\StudentName;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -14,7 +15,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('layouts.index');
+        // $students = Student::all();
+        // or this query
+        $students = Student::with('students_name')->get();
+        return view('layouts.index',compact('students'));
     }
 
     /**
@@ -22,9 +26,9 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -35,7 +39,25 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $count = Student::all('students_name_id')->last()->count();
+        $student = new Student;
+        $request->validate([
+            'stud_id'=> 'required',
+            'FirstName'=> 'required',
+            'LastName'=> 'required',
+            'age'=> 'required',
+            'grade_level'=> 'required',
+
+
+        ]);
+        $student->stud_id = $request->stud_id;
+        $student->students_name_id = $count+1;
+        $student->age = $request->age;
+        $student->grade_level = $request->grade_level;
+        $student->save();
+
+        StudentName::create($request->all());
+        return redirect()->back()->with(['addstudent'=>'Added New Student']);
     }
 
     /**

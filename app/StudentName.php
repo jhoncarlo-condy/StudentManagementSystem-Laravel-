@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class StudentName extends Model
 {
     protected $table = 'students_name';
+    protected $fillable = ['FirstName','LastName','MiddleName'];
 
     // public function student()
     // {
-    //     $this->hasMany('App\Student');
+    //     return $this->hasOne('App\Student');
     // }
 }
