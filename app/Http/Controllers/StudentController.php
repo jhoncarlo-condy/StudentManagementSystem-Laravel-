@@ -57,7 +57,7 @@ class StudentController extends Controller
         $student->save();
 
         StudentName::create($request->all());
-        return redirect()->back()->with(['addstudent'=>'Added New Student']);
+        return redirect()->back()->with(['message'=>'Added New Student']);
     }
 
     /**
@@ -79,7 +79,8 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        $student = Student::find($student->id);
+        return view('students.index',compact('student'));
     }
 
     /**
@@ -91,7 +92,19 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        $request->validate([
+            'stud_id'=>'required',
+            'FirstName'=>'required',
+            'LastName'=>'required',
+            'age'=>'required',
+            'grade_level'=>'required',
+        ]);
+
+        Student::find($student->id)->update($request->all());
+
+        StudentName::find($student->students_name->id)->update($request->all());
+        return redirect()->back()->with(['message' => 'Success updating student']);
+
     }
 
     /**
@@ -102,6 +115,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        Student::find($student->id)->destroy();
+        Student::find($student->students_name->id)->destroy();
+        return redirect()->back()->with(['message' => 'Student Info Deleted']);
     }
 }
