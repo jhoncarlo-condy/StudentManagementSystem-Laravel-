@@ -2,6 +2,17 @@
 @section('content')
 <div class="container">
    @if (Session::has('message'))
+    <script>
+        $(document).ready(function(){
+            Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+            })
+        });
+    </script>
    <div class="alert alert-success alert-dismissible fade show" role="alert">
        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
            <span aria-hidden="true">&times;</span>
@@ -44,10 +55,11 @@
                         <i class="fas fa-user-edit"></i>
                       Edit
                     </button>
-                    <form action="{{ route('students.destroy',$student->id) }}">
+                    <form action="{{ route('students.destroy',$student->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
                         <button type="sumbit" class="btn btn-danger">
-                            <i class="fas fa-user-edit"></i>
-                        Delete
+                        <i class="fas fa-eraser"></i>Delete
                         </button>
                     </form>
                 </td>
@@ -189,7 +201,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </div>
         </div>

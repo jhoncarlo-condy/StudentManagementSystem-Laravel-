@@ -39,8 +39,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $count = Student::all('students_name_id')->last()->count();
-        $student = new Student;
+
         $request->validate([
             'stud_id'=> 'required',
             'FirstName'=> 'required',
@@ -50,13 +49,20 @@ class StudentController extends Controller
 
 
         ]);
+        $studentname = new StudentName;
+        $studentname->FirstName = $request->FirstName;
+        $studentname->MiddleName = $request->MiddleName;
+        $studentname->LastName = $request->LastName;
+        $studentname->save();
+        $students_name_id = $studentname->id;
+
+        $student = new Student;
         $student->stud_id = $request->stud_id;
-        $student->students_name_id = $count+1;
+        $student->students_name_id = $students_name_id;
         $student->age = $request->age;
         $student->grade_level = $request->grade_level;
         $student->save();
 
-        StudentName::create($request->all());
         return redirect()->back()->with(['message'=>'Added New Student']);
     }
 
@@ -115,8 +121,9 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        Student::find($student->id)->destroy();
-        Student::find($student->students_name->id)->destroy();
+
+        StudentName::find($student->students_name->id)->delete();
+        Student::find($student->id)->delete();
         return redirect()->back()->with(['message' => 'Student Info Deleted']);
     }
 }
